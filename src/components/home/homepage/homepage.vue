@@ -63,7 +63,7 @@
     },
     created() {
       // find
-      this.$http.get('/static/data.json').then((response) => {
+      this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
           response = response.body;
           if (response.find) {
             this.find = response.find;
@@ -71,7 +71,7 @@
       });
 
       // home
-      this.$http.get('/static/data.json').then((response) => {
+      this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
           response = response.body;
           if (response && response.home) {
             this.home = response.home;
