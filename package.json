@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "git":"rm -rf docs && mv dist docs"
   },
   "dependencies": {
     "axios": "^0.18.0",
