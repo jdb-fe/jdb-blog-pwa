@@ -8,12 +8,16 @@ import './common/stylus/reset.styl'
 import './common/stylus/icon.styl'
 import './common/stylus/scale-1px.styl'
 
+
+import GloBalCom from './api/global-com-reg';
+
 Vue.config.productionTip = false
 
 Vue.use(Vuelazyload, {
-    loading: require('common/image/me.jpg')
+  loading: require('common/image/me.jpg')
 })
 Vue.use(VueResource)
+Vue.use(GloBalCom)
 
 /* eslint-disable no-new */
 new Vue({
