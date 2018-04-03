@@ -11,34 +11,15 @@
               <i class="iconfont">&#xe6bf;</i>
             </div>
           </div>
-          <div v-for="item in home.recommend">
-            <div class="hot-recommend-list" @click="selectlist(item)">
-              <div class="recommend-infor">
-                <p>{{item.title}}</p>
-                <div class="recommend-infor-ic">
-                  <span>
-                    <i class="iconfont">&#xe641;</i>{{item.like}}</span>
-                  <span>
-                    <i class="iconfont">&#xe631;</i>{{item.author}}</span>
-                  <span>
-                    <i class="iconfont">&#xe603;</i>{{item.time}}前</span>
-                </div>
-              </div>
-              <div class="recommend-img">
-                <img v-lazy="item.image">
-              </div>
-            </div>
-          </div>
         </div>
         <div class="newslist-container">
-          <div @click="selectlist(item)" class="newslist" v-for="item in find.content">
+          <div @click="selectlist(item)" class="newslist" v-for="item in articleList">
             <div class="recommend-infor">
-              <p>{{item.title}}</p>
-              <span>{{item.like}}人喜欢·{{item.author}}·{{item.time}}前</span>
-              <img v-lazy="item.image">
+              <p class="multilinie-text-overflow">{{item.title}}</p>
+              <span>{{item.like || 100}}人喜欢·{{item.author|| 'jdbfe'}}·{{item.time || 'JustNow'}}前</span>
+              <img v-lazy="item.image" v-if="item.image">
             </div>
           </div>
-          <listdetail :list="selectedlist" ref="listdetail"></listdetail>
         </div>
       </div>
     </scroll>
@@ -64,7 +45,8 @@
         home: {
           type: Object
         },
-        selectedlist: {}
+        selectedlist: {},
+        articleList: [],
       };
     },
     props: {
@@ -72,27 +54,26 @@
     },
     created() {
       // find
-      this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
-        response = response.body;
-        if (response.find) {
-          this.find = response.find;
-        }
-      });
+      // this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
+      //   response = response.body;
+      //   if (response.find) {
+      //     this.find = response.find;
+      //   }
+      // });
 
       // home
-      this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
-        response = response.body;
-        if (response && response.home) {
-          this.home = response.home;
-        }
-      });
+      // this.$http.get('/jdb-blog-pwa/static/data.json').then((response) => {
+      //   response = response.body;
+      //   if (response && response.home) {
+      //     this.home = response.home;
+      //   }
+      // });
 
-      this.$fetch('articleListApi', {
-      },true,'get').then((res) => {
-        debugger;
+      this.$fetch('articleListApi', {}, true, 'get').then((res) => {
+        this.articleList = res.data.list;
       })
-  },
-  methods: {
+    },
+    methods: {
       selectlist(item) {
         this.selectedlist = item;
         this.$refs.listdetail.show();
@@ -249,6 +230,15 @@
     right: 12px;
     top: 50%;
     margin-top: -30px;
+  }
+  .multilinie-text-overflow {
+    height: 37px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-bottom: 20px;
   }
 
 </style>

@@ -5,24 +5,24 @@
         <div class="Btn-back" @click="hide"><i class="iconfont">&#xe607;</i></div>
         <div class="author-infor">
           <div class="author-img"><img :src="list.author_img" ></div>
-          <span>{{list.author}}</span>
+          <span>{{list.author || 'jdbfe'}}</span>
         </div>
         <div class="Btn-fenxiang"></div>
       </div>
       <div class="detail-content">
-        <div class="head-img">
-          <img :src="list.list_img">
+        <div class="head-img" v-if="list.list_img">
+          <img :src="list.list_img" >
         </div>
         <div class="content-read">
           <div class="list-title">{{list.title}}</div>
-          <div class="main-read">{{list.read}}</div>
+          <div class="main-read" v-html="list.html"></div>
         </div>
       </div>
       <div class="foot">
         <div class="font-item"><i class="iconfont">&#xe600;</i></div>
         <div class="font-item"><i class="iconfont">&#xe65a;</i></div>
         <div class="font-item"><i class="iconfont">&#xe602;</i></div>
-        <div class="like-num">喜欢 {{list.like}}</div>
+        <div class="like-num">喜欢 {{list.like || parseInt(Math.random()*100 +10)}}</div>
 
       </div>
     </div>
@@ -62,6 +62,7 @@
     width: 100%;
     background: #fff;
     transform: translate3d(0, 0, 0);
+    /* overflow-y: scroll; */
   }
   .move-enter-active, .move-leave-active {
       transition: all 0.2s linear;
@@ -119,9 +120,14 @@
     width: 50px;
     font-size: 15px;
   }
+  .detail-content {
+    height: 1000px;
+    overflow-y: scroll;
+  }
   .detail-content .head-img {
     height: 180px;
     width: 100%;
+
   }
   .detail-content .head-img img{
     height: 100%;
@@ -140,6 +146,11 @@
   .main-read {
     font-size: 15px;
     line-height: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
+    img {
+      max-width: 100%;
+    }
   }
   .foot {
     z-index: 1300;
