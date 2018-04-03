@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="newslist-container">
-          <div @click="selectlist(item)" class="newslist" v-for="item in articleList">
+          <div @click="selectlist(item,index)" :key="index" class="newslist" v-for="(item,index) in articleList">
             <div class="recommend-infor">
               <p class="multilinie-text-overflow">{{item.title}}</p>
               <span>{{item.like || 100}}人喜欢·{{item.author|| 'jdbfe'}}·{{item.time || 'JustNow'}}前</span>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </scroll>
-    <listdetail :list="selectedlist" ref="listdetail"></listdetail>
+    <!-- <listdetail :list="selectedlist" ref="listdetail"></listdetail> -->
   </div>
 
 </template>
@@ -71,17 +71,41 @@
 
       this.$fetch('articleListApi', {}, true, 'get').then((res) => {
         this.articleList = res.data.list;
-      })
+        this.setArticleToLocal(this.articleList);
+      });
+      if (!navigator.onLine) {
+        this.articleList = this.getArticleFromLocal();
+      }
     },
     methods: {
-      selectlist(item) {
-        this.selectedlist = item;
-        this.$refs.listdetail.show();
+      selectlist(item, index) {
+        this.$router.push({
+          path: '/detail',
+          query: {
+            index: index,
+          }
+        })
+        // this.selectedlist = item;
+        // this.$refs.listdetail.show();
+      },
+      setArticleToLocal(list) {
+        localStorage && localStorage.setItem('articleList', JSON.stringify(list));
+      },
+      getArticleFromLocal() {
+        let list = [];
+        let str = '';
+        str = localStorage.getItem('articleList');
+        try {
+          list = JSON.parse(str) || [];
+        } catch (e) {
+          console.log(e);
+        }
+        return list;
       }
     },
     components: {
       newslist,
-      listdetail,
+      // listdetail,
       Scroll
     }
   }
@@ -231,6 +255,7 @@
     top: 50%;
     margin-top: -30px;
   }
+
   .multilinie-text-overflow {
     height: 37px;
     overflow: hidden;

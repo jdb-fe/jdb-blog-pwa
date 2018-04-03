@@ -9,20 +9,18 @@ import Frontend from '../components/home/frontend/frontend'
 import Product from '../components/home/product/product'
 import Design from '../components/home/design/design'
 import Afterend from '../components/home/afterend/afterend'
-
+import ArticleDetail from '../components/home/article/article';
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       redirect: './home'
     },
     {
       path: '/home',
       component: Home,
-      children: [
-        {
+      children: [{
           path: '/',
           redirect: './homepage'
         },
@@ -47,6 +45,10 @@ export default new Router({
           component: Afterend
         }
       ]
+    },
+    {
+      path: '/detail',
+      component: ArticleDetail
     },
     {
       path: '/find',
